@@ -1,0 +1,16 @@
+CSS Grid
+https://css-tricks.com/dont-overthink-it-grids/
+https://css-tricks.com/snippets/css/complete-guide-grid/
+https://css-tricks.com/things-ive-learned-css-grid-layout/
+https://gridbyexample.com/examples/page-layout/hero-image-panel/
+
+progress indicators:
+https://codepen.io/sitebuildstudio/pen/YXRMrY
+http://www.cssscript.com/responsive-step-progress-indicator-with-pure-css/
+https://github.com/tcavalin/stepProgress
+https://github.com/tcavalin/stepProgress
+https://codyhouse.co/gem/css-breadcrumbs-and-multi-step-indicator/
+
+icons:
+https://materialdesignicons.com/getting-started (use SVG)
+https://material.io/icons/ - select an icon and download as svg

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html>
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel='stylesheet' href='css/progress-animate.css'>
+<style>
+
+    html,
+    body {
+        height: 100%;
+        font-size: 16px;
+    }
+
+    body {
+        /* make the progress container the center of the page */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container {
+        display: grid;
+        grid-template-rows: auto;
+        grid-template-columns: auto auto auto auto;
+        grid-template-areas: "header1 header2 header3 header4" "first1 first2 first3 first4" "second1 second2 second3 second4" "third1 third2 third3 third4" "fourth1 fourth2 fourth3 fourth4" "fifth1 fifth2 fifth3 fifth4" "sixth1 sixth2 sixth3 sixth4" "bottom bottom bottom bottom";        
+        align-content: stretch;
+        grid-row-gap: 0.2rem;
+        width: 75%;
+        height: 60%;     
+    }
+
+    .task-list {
+        list-style: none;
+        /* don't show bullet points*/
+        background: orange;
+        display: flex;
+        flex-direction: row;
+        margin: 2rem auto;
+        width: 100%;        
+    }
+
+    .flex-row, .task-list {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .task-item {        
+        display: grid;
+        /* single container */
+        grid-template-columns: auto;
+        grid-template-rows: auto;
+        grid-template-areas: "area";        
+    }
+
+    .blank {
+        background: #a9aaab;
+    }
+
+    .pending {
+        background: orange;        
+    }
+
+    .pending-icon {
+        fill: orange;
+    }
+
+    .running-icon {
+        fill: blue;
+    }
+
+    .passed-icon {
+        fill: green;
+    }
+
+    .failed-icon {
+        fill: red;
+    }
+
+    .status-icon, .pending-icon, .running-icon, .passed-icon, .failed-icon {
+        height: 48px;
+        width: 48px;               
+    }
+
+    .pending-text {
+        color: orange;
+    }
+
+    .running-text {
+        color: blue;
+    }
+
+    .passed-text {
+        color: green;
+    }
+
+    .failed-text {
+        color: red;
+    }
+
+    .status-text {
+        font-weight: bold;        
+        align-self: center;
+        margin-left: 0.5rem;
+    }
+
+
+    .running {
+        background: blue;
+    }
+
+    .progress-animate {
+        background-image: linear-gradient(-45deg,
+        rgba(255, 255, 255, .35) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255, 255, 255, .35) 50%,
+        rgba(255, 255, 255, .35) 75%,
+        transparent 75%,
+        transparent);
+
+        animation: move 2s linear infinite;
+        animation-direction: reverse;
+    }
+
+    @keyframes move {
+        0% {
+            background-position-x: 0px;
+        }
+        100% {
+            background-position-x: -70px;
+        }
+    }
+
+
+    .failed {
+        background: red;
+    }
+
+    .passed {
+        background: green;
+    }
+
+    .inner-area {
+        grid-area: area;
+        align-self: center;
+        justify-self: center;
+    }
+
+    .circle {
+        /* inner circle */
+        border-radius: 50%;
+        height: 2rem;
+        width: 2rem;
+        align-self: center;
+    }
+
+    .circle::before {
+        /* outer circle */
+        background: #a9aaab;
+        border-radius: 50%;
+        height: 3rem;
+        width: 3rem;
+        align-self: center;
+    }
+
+    .circle::after {
+        /* circle icon */
+        background: transparent;
+    }
+
+
+
+    .outer-circle {
+        background: #a9aaab;
+        border-radius: 50%;
+        height: 3rem;
+        width: 3rem;
+        align-self: center;
+    }
+
+    .outer-circle::after {
+        content: '';
+        border-radius: 50%;
+        height: 2rem;
+        width: 2rem;
+        align-self: center;
+    }
+
+    .inner-circle {
+        border-radius: 50%;
+        height: 2rem;
+        width: 2rem;
+        align-self: center;
+    }
+
+    .progress-line {
+        height: 0.5rem;
+        width: 100%;
+        align-self: center;
+    }
+
+
+    .task-line {
+        height: 1rem;
+        width: 100%;
+        align-self: center;
+        background: #a9aaab;
+    }
+
+    .line-start {
+        width: 50%;
+        justify-self: end;
+    }
+
+    .line-end {
+        width: 50%;
+        justify-self: start;
+    }
+
+    .center-content {
+        align-self: center;
+        justify-self: center;
+    }
+
+    #header-1 {
+        grid-area: header1;
+    }
+
+    #header-2 {
+        grid-area: header2;
+    }
+
+    #header-3 {
+        grid-area: header3;
+    }
+
+    #header-4 {
+        grid-area: header4;
+    }
+
+    .row1 {
+        grid-row: 1;
+    }
+
+    .row2 {
+        grid-row: 2;
+    }
+
+    .row3 {
+        grid-row: 3;
+    }
+
+    .row4 {
+        grid-row: 4;
+    }
+
+    .row5 {
+        grid-row: 5;
+    }
+
+    .row6 {
+        grid-row: 6;
+    }
+
+    .row-line {
+        grid-column: 1 / span 4;
+        height: 0.1rem;
+        align-self: start;
+        background: gray;
+    }
+  
+</style>
+
+<body>
+    <div class="container">
+        <!-- HEADER ROW -->
+        <h2 id="header-1" class="center-content">Task 1</h2>
+        <h2 id="header-2" class="center-content">Task 2</h2>
+        <h2 id="header-3" class="center-content">Task 3</h2>
+        <h2 id="header-4" class="center-content">Status</h2>
+
+        <div class="row-line row1"> </div>
+        <div class="row-line row2"> </div>
+        <div class="row-line row3"> </div>
+        <div class="row-line row4"> </div>
+        <div class="row-line row5"> </div>
+        <div class="row-line row6"> </div>
+
+        <!-- PENDING PROGRESS -->
+        <div style="grid-area: first1" class="task-item">
+            
+            <div class="task-line line-start inner-area "></div>
+            <div class="outer-circle inner-area"> </div>
+            <div class="inner-circle pending inner-area"> </div>
+            <svg class="inner-area" fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                />
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
+            </svg>
+
+
+        </div>
+
+        <div style="grid-area: first2" class="task-item">
+            <div class="task-line inner-area "></div>
+            <div class="outer-circle inner-area"> </div>
+        </div>
+
+        <div style="grid-area: first3" class="task-item">
+            <div class="task-line line-end inner-area "></div>
+            <div class="outer-circle inner-area"> </div>
+        </div>
+
+        <div style="grid-area: first4" class="flex-row center-content">
+            <svg class="pending-icon" viewBox="0 0 24 24">
+                <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"  />
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
+            </svg>
+            <div class="pending-text status-text">Pending</div>
+        </div>
+
+        <!-- RUNNING PROGRESS -->
+        <div style="grid-area: second1" class="task-item">
+            <div class="task-line line-start inner-area "></div>
+            <div class="outer-circle inner-area"> </div>
+            <div class="progress-line line-start running inner-area progress-animate"></div>
+            <div class="inner-circle running inner-area  progress-animate"> </div>
+
+            <svg class="inner-area" fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24" transform="rotate(90)">
+                <path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"
+                />
+                <path d="M0 0h24v24H0z" fill="none" />
+            </svg>
+        </div>
+
+        <div style="grid-area: second2" class="task-item">
+            <div class="task-line inner-area "></div>
+            <div class="outer-circle inner-area"> </div>
+            <div class="progress-line running inner-area  progress-animate"></div>
+            <div class="inner-circle running inner-area  progress-animate"> </div>
+            <svg class="inner-area" fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24" transform="rotate(90)">
+                <path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"
+                />
+                <path d="M0 0h24v24H0z" fill="none" />
+            </svg>
+
+        </div>
+
+
+        <div style="grid-area: second3" class="task-item">
+            <div class="task-line line-end inner-area "></div>
+            <div class="outer-circle inner-area"> </div>
+        </div>
+
+        <div style="grid-area: second4" class="flex-row center-content">
+             <svg class="running-icon"  viewBox="0 0 24 24" transform="rotate(90)">
+                <path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"
+                />
+                <path d="M0 0h24v24H0z" fill="none" />
+            </svg>
+            <div class="running-text status-text">Running</div>
+        </div>
+
+        <!-- COMPLETE-PASSED PROGRESS -->
+        <div style="grid-area: third1" class="task-item">
+            <div class="task-line line-start inner-area "></div>
+            <div class="outer-circle inner-area"> </div>
+            <div class="progress-line line-start passed inner-area"></div>
+            <div class="inner-circle passed inner-area"> </div>
+            <svg class="inner-area" fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24">
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+            </svg>
+        </div>
+
+        <div style="grid-area: third2" class="task-item">
+            <div class="task-line inner-area "></div>
+            <div class="outer-circle inner-area"> </div>
+            <div class="progress-line passed inner-area"></div>
+            <div class="inner-circle passed inner-area"> </div>
+            <svg class="inner-area" fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24">
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+            </svg>
+
+        </div>
+
+        <div style="grid-area: third3" class="task-item">
+            <div class="task-line line-end inner-area "></div>
+            <div class="outer-circle inner-area"> </div>
+            <div class="progress-line line-end passed inner-area"></div>
+            <div class="inner-circle passed inner-area"> </div>
+            <svg class="inner-area" fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24">
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+            </svg>
+
+        </div>
+
+         <div style="grid-area: third4" class="flex-row center-content">
+             <svg class="passed-icon" viewBox="0 0 24 24" >
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+            </svg>
+            <div class="passed-text status-text">Passed</div>
+        </div>
+
+        <!-- FAILED-HALF PROGRESS -->
+        <div style="grid-area: fourth1" class="task-item">
+            <div class="task-line line-start inner-area "></div>
+            <div class="outer-circle inner-area"> </div>
+            <div class="progress-line line-start failed inner-area"></div>
+            <div class="inner-circle failed inner-area"> </div>
+            <!-- First step still passed -->
+            <svg class="inner-area" fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24">
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+            </svg>
+        </div>
+
+        <div style="grid-area: fourth2" class="task-item">
+            <div class="task-line inner-area "></div>
+            <div class="outer-circle inner-area"> </div>
+            <div class="progress-line line-end failed inner-area"></div>
+            <div class="inner-circle failed inner-area"> </div>
+            <svg class="inner-area" fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 0h24v24H0V0z" fill="none" />
+                <path d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                />
+            </svg>
+        </div>
+
+        <div style="grid-area: fourth3" class="task-item">
+            <div class="task-line line-end inner-area "></div>
+            <div class="outer-circle inner-area"> </div>
+        </div>
+
+        <div style="grid-area: fourth4" class="flex-row center-content">
+             <svg class="failed-icon" viewBox="0 0 24 24" >
+                <path d="M0 0h24v24H0V0z" fill="none" />
+                <path d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                />
+            </svg>
+            <div class="failed-text status-text">Failed</div>
+        </div>
+    </div>
+
+</body>
+
+</html>
