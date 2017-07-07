@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<style>
+     :root {
+        /* re-usable CSS variables  */
+        --pending-color: orange;
+        --passed-color: green;
+        --none-color: #a9aaab;
+    }
+
+    html,
+    body {
+        height: 100%;
+        font-size: 16px;
+    }
+
+    body {
+        /* make the progress container the center of the page */
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+
+    .blank {
+        background: var(--none-color);
+    }
+
+    .pending {
+        background: var(--pending-color);
+    }
+
+    .passed {
+        background: var(--passed-color);
+    }
+
+    .pending-icon {
+        fill: var(--pending-color);
+    }
+    .passed-icon {
+        fill: var(--passed-color);
+    }
+
+    svg.embed {
+        height: 3rem;
+        width: 3rem;
+        justify-self: center;
+        align-self: center;
+    }
+
+    .circle {
+        display: grid;
+        border-radius: 50%;
+        height: 3.5rem;
+        margin: 2rem;
+        width: 3.5rem;
+        align-self: center;
+    }
+
+    .center-self {
+        justify-self: center;
+        align-self: center;
+    }
+
+    .circle::after {
+        content: '';
+        position: absolute;
+        justify-self: center;
+        align-self: center;
+        z-index: -1;
+        background: var(--none-color);
+        border-radius: 50%;
+        margin-left: -0.7rem;
+        margin-top: -0.7rem;
+        height: 5rem;
+        width: 5rem;
+        box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.4);
+    }
+
+    .circle:hover {
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    }
+</style>
+
+<body>
+    <!-- Common stylable icons  -->
+    <svg style="display: none;">
+        <symbol id="pendingIcon" viewBox="0 0 24 24">
+            <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+            />
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
+        </symbol>
+        <symbol id="passedIcon" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+        </symbol>
+    </svg>
+
+    <!-- Circles -->
+    <div class="circle pending">
+        <svg class="embed">
+            <use class="passed-icon" xlink:href="#pendingIcon" />
+        </svg>
+    </div>
+
+
+    <div class="circle passed">
+        <svg class="embed">
+            <use class="pending-icon" xlink:href="#passedIcon" />
+        </svg>
+    </div>
+
+
+</body>
+
+</html>

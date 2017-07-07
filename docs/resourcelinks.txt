@@ -12,5 +12,14 @@ https://github.com/tcavalin/stepProgress
 https://codyhouse.co/gem/css-breadcrumbs-and-multi-step-indicator/
 
 icons:
+https://css-tricks.com/scale-svg/
 https://materialdesignicons.com/getting-started (use SVG)
 https://material.io/icons/ - select an icon and download as svg
+https://codepen.io/AmeliaBR/pen/bLCKx
+
+nifty stuff:
+https://css-tricks.com/css3-progress-bars/
+https://codepen.io/whqet/pen/hfDzp
+
+CSS:
+https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_variables
