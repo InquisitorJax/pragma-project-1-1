@@ -20,6 +20,8 @@ https://codepen.io/AmeliaBR/pen/bLCKx
 nifty stuff:
 https://css-tricks.com/css3-progress-bars/
 https://codepen.io/whqet/pen/hfDzp
+http://jsfiddle.net/dBQ5s/4/
+
 
 CSS:
 https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_variables
