@@ -9,6 +9,21 @@
         --passed-color: green;
         --failed-color: red;
         --none-color: #a9aaab;
+        --white-color: #FFFFFF;
+    }
+
+    svg.embed {
+        height: 1.5rem;
+        width: 1.5rem;
+        justify-self: center;
+        align-self: center;
+    }
+
+    svg.embed-medium {
+        height: 2.5rem;
+        width: 2.5rem;
+        justify-self: center;
+        align-self: center;
     }
 
     html,
@@ -48,76 +63,73 @@
         grid-template-areas: "area";
     }
 
-    .blank {
+    .gray-background {
         background: var(--none-color);
     }
 
-    .pending {
+    .pending-background {
         background: var(--pending-color);
     }
 
-    .pending-icon {
+    .pending-fill {
         fill: var(--pending-color);
     }
 
-    .running-icon {
+    .white-fill {
+        fill: var(--white-color);
+    }
+
+    .running-fill {
         fill: var(--running-color);
     }
 
-    .passed-icon {
+    .passed-fill {
         fill: var(--passed-color);
     }
 
-    .failed-icon {
+    .failed-fill {
         fill: var(--failed-color);
     }
 
-    .status-icon,
-    .pending-icon,
-    .running-icon,
-    .passed-icon,
-    .failed-icon {
+    .icon-medium {
         height: 48px;
         width: 48px;
     }
 
-    .pending-text {
+    .pending-color {
         color: var(--pending-color);
     }
 
-    .running-text {
+    .running-color {
         color: var(--running-color);
     }
 
-    .passed-text {
+    .passed-color {
         color: var(--passed-color);
     }
 
-    .failed-text {
+    .white-color {
+        color: var(--white-color)
+    }
+
+    .failed-color {
         color: var(--failed-color);
     }
 
     .status-text {
         font-weight: bold;
+        font-size: 1.5rem;
         align-self: center;
         margin-left: 0.5rem;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
     }
 
-
-    .running {
+    .running-background {
         background: var(--running-color);
     }
 
     .progress-animate {
-        background-image: linear-gradient(-45deg,
-        rgba(255, 255, 255, .35) 25%,
-        transparent 25%,
-        transparent 50%,
-        rgba(255, 255, 255, .35) 50%,
-        rgba(255, 255, 255, .35) 75%,
-        transparent 75%,
-        transparent);
-
         animation: move 2s linear infinite;
         animation-direction: reverse;
     }
@@ -132,11 +144,11 @@
     }
 
 
-    .failed {
+    .failed-background {
         background: var(--failed-color);
     }
 
-    .passed {
+    .passed-background {
         background: var(--passed-color);
     }
 
@@ -147,46 +159,40 @@
     }
 
     .circle {
-        /* inner circle */
+        display: grid;
         border-radius: 50%;
         height: 2rem;
         width: 2rem;
-        align-self: center;
-    }
-
-    .circle::before {
-        /* outer circle */
-        background: var(--none-color);
-        border-radius: 50%;
-        height: 3rem;
-        width: 3rem;
         align-self: center;
     }
 
     .circle::after {
-        /* circle icon */
-        background: transparent;
-    }
-
-    .outer-circle {
-        background: #a9aaab;
+        content: '';
+        position: absolute;
+        justify-self: center;
+        align-self: center;
+        z-index: -1;
+        background: var(--none-color);
         border-radius: 50%;
+        margin-left: -0.5rem;
+        margin-top: -0.5rem;
         height: 3rem;
         width: 3rem;
-        align-self: center;
-    }  
+    }
 
-    .inner-circle {
-        border-radius: 50%;
-        height: 2rem;
-        width: 2rem;
-        align-self: center;
+    .circle:hover::after {
+        box-shadow: 2px 2px 4px rgba(123, 0, 0, 0.4);
     }
 
     .progress-line {
         height: 0.5rem;
         width: 100%;
         align-self: center;
+        background-image: repeating-linear-gradient(-45deg,
+        rgba(255, 255, 255, .35),        
+        transparent 4px,
+        rgba(255, 255, 255, .35) 3px,
+        rgba(255, 255, 255, .35) 6px);
     }
 
     .task-line {
@@ -209,7 +215,7 @@
     .center-content {
         align-self: center;
         justify-self: center;
-    }     
+    }
 
     .row-line {
         grid-column: 1 / span 4;
@@ -217,14 +223,32 @@
         align-self: start;
         background: gray;
     }
-
-    
 </style>
 
 <body>
 
-    <svg class="svg-def">
-        </svg>
+    <svg style="display: none;">
+        <symbol id="pending-icon" viewBox="0 0 24 24">
+            <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+            />
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
+        </symbol>
+        <symbol id="running-icon" viewBox="0 0 24 24">
+            <path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"
+            />
+            <path d="M0 0h24v24H0z" fill="none" />
+        </symbol>
+        <symbol id="passed-icon" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+        </symbol>
+        <symbol id="failed-icon" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0V0z" fill="none" />
+            <path d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+            />
+        </symbol>
+    </svg>
 
     <div class="container">
         <!-- HEADER ROW -->
@@ -243,163 +267,137 @@
 
         <!-- PENDING PROGRESS -->
         <div style="grid-area: first1" class="task-item">
-
             <div class="task-line line-start inner-area "></div>
-            <div class="outer-circle inner-area"> </div>
-            <div class="inner-circle pending inner-area"> </div>
-            <svg class="inner-area" fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                />
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
-            </svg>
-
-
+            <div class="circle pending-background inner-area">
+                <svg class="embed">
+                    <use class="white-fill" xlink:href="#pending-icon" />
+                </svg>
+            </div>
         </div>
 
         <div style="grid-area: first2" class="task-item">
             <div class="task-line inner-area "></div>
-            <div class="outer-circle inner-area"> </div>
+            <div class="circle inner-area"> </div>
         </div>
 
         <div style="grid-area: first3" class="task-item">
             <div class="task-line line-end inner-area "></div>
-            <div class="outer-circle inner-area"> </div>
+            <div class="circle inner-area"> </div>
         </div>
 
         <div style="grid-area: first4" class="flex-row center-content">
-            <svg class="pending-icon" viewBox="0 0 24 24">
-                <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                />
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
+            <svg class="embed-medium">
+                <use class="pending-fill " xlink:href="#pending-icon" />
             </svg>
-            <div class="pending-text status-text">Pending</div>
+            <div class="pending-color status-text">Pending</div>
         </div>
 
         <!-- RUNNING PROGRESS -->
         <div style="grid-area: second1" class="task-item">
             <div class="task-line line-start inner-area "></div>
-            <div class="outer-circle inner-area"> </div>
-            <div class="progress-line line-start running inner-area progress-animate"></div>
-            <div class="inner-circle running inner-area  progress-animate"> </div>
-
-            <svg class="inner-area" fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24" transform="rotate(90)">
-                <path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"
-                />
-                <path d="M0 0h24v24H0z" fill="none" />
-            </svg>
+            <div class="circle inner-area"> </div>
+            <div class="progress-line line-start running-background inner-area progress-animate"></div>
+            <div class="circle running-background inner-area">
+                <svg class="embed">
+                    <use class="white-fill" xlink:href="#passed-icon" />
+                </svg>
+            </div>
         </div>
 
         <div style="grid-area: second2" class="task-item">
             <div class="task-line inner-area "></div>
-            <div class="outer-circle inner-area"> </div>
-            <div class="progress-line running inner-area  progress-animate"></div>
-            <div class="inner-circle running inner-area  progress-animate"> </div>
-            <svg class="inner-area" fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24" transform="rotate(90)">
-                <path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"
-                />
-                <path d="M0 0h24v24H0z" fill="none" />
-            </svg>
-
+            <div class="progress-line running-background inner-area  progress-animate"></div>
+            <div class="circle running-background inner-area">
+                <svg class="embed" transform="rotate(90)">
+                    <use class="white-fill " xlink:href="#running-icon" />
+                </svg>
+            </div>
         </div>
-
 
         <div style="grid-area: second3" class="task-item">
             <div class="task-line line-end inner-area "></div>
-            <div class="outer-circle inner-area"> </div>
+            <div class="circle inner-area"> </div>
         </div>
 
         <div style="grid-area: second4" class="flex-row center-content">
-            <svg class="running-icon" viewBox="0 0 24 24" transform="rotate(90)">
-                <path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"
-                />
-                <path d="M0 0h24v24H0z" fill="none" />
+            <svg class="embed-medium" transform="rotate(90)">
+                <use class="running-fill " xlink:href="#running-icon" />
             </svg>
-            <div class="running-text status-text">Running</div>
+            <div class="running-color status-text">Running</div>
         </div>
 
         <!-- COMPLETE-PASSED PROGRESS -->
         <div style="grid-area: third1" class="task-item">
             <div class="task-line line-start inner-area "></div>
-            <div class="outer-circle inner-area"> </div>
-            <div class="progress-line line-start passed inner-area"></div>
-            <div class="inner-circle passed inner-area"> </div>
-            <svg class="inner-area" fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24">
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-            </svg>
+            <div class="progress-line line-start passed-background inner-area"></div>
+            <div class="circle passed-background inner-area">
+                <svg class="embed">
+                    <use class="white-fill " xlink:href="#passed-icon" />
+                </svg>
+            </div>
         </div>
 
         <div style="grid-area: third2" class="task-item">
             <div class="task-line inner-area "></div>
             <div class="outer-circle inner-area"> </div>
-            <div class="progress-line passed inner-area"></div>
-            <div class="inner-circle passed inner-area"> </div>
-            <svg class="inner-area" fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24">
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-            </svg>
+            <div class="progress-line passed-background inner-area"></div>
+            <div class="circle passed-background inner-area">
+                <svg class="embed">
+                    <use class="white-fill " xlink:href="#passed-icon" />
+                </svg>
+            </div>
 
         </div>
 
         <div style="grid-area: third3" class="task-item">
             <div class="task-line line-end inner-area "></div>
-            <div class="outer-circle inner-area"> </div>
-            <div class="progress-line line-end passed inner-area"></div>
-            <div class="inner-circle passed inner-area"> </div>
-            <svg class="inner-area" fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24">
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-            </svg>
-
+            <div class="progress-line line-end passed-background inner-area"></div>
+            <div class="circle passed-background inner-area">
+                <svg class="embed">
+                    <use class="white-fill " xlink:href="#passed-icon" />
+                </svg>
+            </div>
         </div>
 
         <div style="grid-area: third4" class="flex-row center-content">
-            <svg class="passed-icon" viewBox="0 0 24 24">
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+            <svg class="embed-medium">
+                <use class="passed-fill " xlink:href="#passed-icon" />
             </svg>
-            <div class="passed-text status-text">Passed</div>
+            <div class="passed-color status-text">Passed</div>
+
         </div>
 
         <!-- FAILED-HALF PROGRESS -->
         <div style="grid-area: fourth1" class="task-item">
             <div class="task-line line-start inner-area "></div>
-            <div class="outer-circle inner-area"> </div>
-            <div class="progress-line line-start failed inner-area"></div>
-            <div class="inner-circle failed inner-area"> </div>
-            <!-- First step still passed -->
-            <svg class="inner-area" fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24">
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-            </svg>
+            <div class="progress-line line-start failed-background inner-area"></div>
+            <div class="circle failed-background inner-area">
+                <svg class="embed">
+                    <use class="white-fill " xlink:href="#passed-icon" />
+                </svg>
+            </div>
         </div>
 
         <div style="grid-area: fourth2" class="task-item">
             <div class="task-line inner-area "></div>
-            <div class="outer-circle inner-area"> </div>
-            <div class="progress-line line-end failed inner-area"></div>
-            <div class="inner-circle failed inner-area"> </div>
-            <svg class="inner-area" fill="#FFFFFF" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0 0h24v24H0V0z" fill="none" />
-                <path d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                />
-            </svg>
+            <div class="progress-line line-end failed-background inner-area"></div>
+            <div class="circle failed-background inner-area">
+                <svg class="embed">
+                    <use class="white-fill " xlink:href="#failed-icon" />
+                </svg>
+            </div>
         </div>
 
         <div style="grid-area: fourth3" class="task-item">
             <div class="task-line line-end inner-area "></div>
-            <div class="outer-circle inner-area"> </div>
+            <div class="circle inner-area"> </div>
         </div>
 
         <div style="grid-area: fourth4" class="flex-row center-content">
-            <svg class="failed-icon" viewBox="0 0 24 24">
-                <path d="M0 0h24v24H0V0z" fill="none" />
-                <path d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-                />
+            <svg class="embed-medium">
+                <use class="failed-fill " xlink:href="#failed-icon" />
             </svg>
-            <div class="failed-text status-text">Failed</div>
+            <div class="failed-color status-text">Failed</div>
         </div>
     </div>
 
